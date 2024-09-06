@@ -3,7 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34723.18
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlobStorageService", "BlobStorageService\BlobStorageService.csproj", "{9EAFAFC5-466A-4D33-9F86-100E39C32053}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlobStorageService.Tests", "BlobStorageService.Tests\BlobStorageService.Tests.csproj", "{5FEA723A-030B-4F0C-B4D8-1BDC2B49EE3B}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9EAFAFC5-466A-4D33-9F86-100E39C32053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EAFAFC5-466A-4D33-9F86-100E39C32053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EAFAFC5-466A-4D33-9F86-100E39C32053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EAFAFC5-466A-4D33-9F86-100E39C32053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FEA723A-030B-4F0C-B4D8-1BDC2B49EE3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FEA723A-030B-4F0C-B4D8-1BDC2B49EE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FEA723A-030B-4F0C-B4D8-1BDC2B49EE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FEA723A-030B-4F0C-B4D8-1BDC2B49EE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection

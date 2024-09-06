@@ -1,0 +1,39 @@
+@region = 
+@subscriptionKey = 
+@storageAccountName = 
+@containerName = 
+@transriptionId = 
+
+### Create Transcription (File)
+POST https://{{region}}.api.cognitive.microsoft.com/speechtotext/v3.2/transcriptions
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "contentUrls": [
+        "https://{{storageAccountName}}.blob.core.windows.net/{{containerName}}/sample.mp3"
+    ],
+    "locale": "ja-JP",
+    "displayName": "Transcription Demo",
+    "model": null
+}
+
+### Create Transcription (Container)
+POST https://{{region}}.api.cognitive.microsoft.com/speechtotext/v3.2/transcriptions
+Content-Type: application/json
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+{
+    "contentContainerUrl": "https://{{storageAccountName}}.blob.core.windows.net/{{containerName}}",
+    "locale": "ja-JP",
+    "displayName": "Transcription Demo",
+    "model": null
+}
+
+### Get Transcription
+GET https://{{region}}.api.cognitive.microsoft.com/speechtotext/v3.2/transcriptions/{{transriptionId}}
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
+
+### Get Transcription Files
+GET https://{{region}}.api.cognitive.microsoft.com/speechtotext/v3.2/transcriptions/{{transriptionId}}/files
+Ocp-Apim-Subscription-Key: {{subscriptionKey}}
