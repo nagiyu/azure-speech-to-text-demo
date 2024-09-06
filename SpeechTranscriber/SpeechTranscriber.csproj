@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BlobStorageService\BlobStorageService.csproj" />
+    <ProjectReference Include="..\SpeechToTextService\SpeechToTextService.csproj" />
   </ItemGroup>
 
 </Project>

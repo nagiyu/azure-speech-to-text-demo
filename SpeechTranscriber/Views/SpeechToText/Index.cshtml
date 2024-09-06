@@ -4,16 +4,62 @@
 
 <h2>音声文字起こし</h2>
 
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
 <form asp-controller="SpeechToText" asp-action="Transcribe" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label for="audioFile">音声ファイルをアップロードしてください</label>
         <input type="file" name="audioFile" class="form-control" id="audioFile" accept=".wav,.mp3" />
     </div>
+
+    <br />
+
     <button type="submit" class="btn btn-primary">文字起こし</button>
 </form>
 
-@if (ViewBag.Transcription != null)
+<br />
+
+@if (ViewBag.TranscriptionId != null)
 {
-    <h3>文字起こし結果</h3>
-    <p>@ViewBag.Transcription</p>
+    <form asp-controller="SpeechToText" asp-action="GetTranscriptionStatus" method="post">
+        <input type="hidden" name="transcriptionId" value="@ViewBag.TranscriptionId" />
+        <button type="submit" class="btn btn-secondary">状態を取得</button>
+    </form>
+
+    <br />
 }
+
+@if (ViewBag.TranscriptionStatus != null)
+{
+    <h3>Transcription Status</h3>
+    <p>@ViewBag.TranscriptionStatus</p>
+
+    @if (ViewBag.TranscriptionStatus == "Succeeded")
+    {
+        <form asp-controller="SpeechToText" asp-action="GetTranscriptionResult" method="post">
+            <input type="hidden" name="transcriptionId" value="@ViewBag.TranscriptionId" />
+            <button type="submit" class="btn btn-success">結果を表示</button>
+        </form>
+
+        <br />
+    }
+}
+
+<br />
+
+@if (ViewBag.TranscriptionResult != null)
+{
+    <h3>Transcription Result</h3>
+    <p>@ViewBag.TranscriptionResult</p>
+
+    <br />
+}
+
+<form asp-controller="SpeechToText" asp-action="ClearViewBags" method="post">
+    <button type="submit" class="btn btn-danger">クリア</button>
+</form>

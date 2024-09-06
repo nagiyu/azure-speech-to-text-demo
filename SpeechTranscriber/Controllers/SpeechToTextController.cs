@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,18 @@ namespace SpeechTranscriber.Controllers
     {
         private readonly IConfiguration configuration;
         private readonly BlobStorageService.Services.BlobStorageService blobStorageService;
+        private readonly SpeechToTextService.Services.SpeechToTextService speechToTextService;
 
-        public SpeechToTextController(IConfiguration configuration, BlobStorageService.Services.BlobStorageService blobStorageService)
+        private static string fileName = "";
+
+        public SpeechToTextController(
+            IConfiguration configuration, 
+            BlobStorageService.Services.BlobStorageService blobStorageService,
+            SpeechToTextService.Services.SpeechToTextService speechToTextService)
         {
             this.configuration = configuration;
             this.blobStorageService = blobStorageService;
+            this.speechToTextService = speechToTextService;
         }
 
         // GET: SpeechToText
@@ -32,8 +40,9 @@ namespace SpeechTranscriber.Controllers
                 return View("Index");
             }
 
-            // ファイル名を取得
-            var fileName = Path.GetFileName(audioFile.FileName);
+            // 一意のファイル名を Guid.NewGuid() で生成するが、拡張子は変えない
+            var extension = Path.GetExtension(audioFile.FileName);
+            fileName = $"{Guid.NewGuid()}{extension}";
 
             // 一時ファイルに保存
             var filePath = Path.GetTempFileName();
@@ -47,13 +56,72 @@ namespace SpeechTranscriber.Controllers
             // BlobStorageService で音声ファイルをアップロード
             await blobStorageService.UploadFile(containerName, filePath, fileName);
 
-            // TODO: 文字起こしを実行
-
             // 一時ファイルを削除
             System.IO.File.Delete(filePath);
 
-            // 結果を表示
-            ViewBag.Transcription = "";
+            // SpeechToTextService で音声ファイルを変換
+            ViewBag.TranscriptionId = await speechToTextService.CreateTranscriptionAsync(fileName);
+
+            return View("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetTranscriptionStatus(string transcriptionId)
+        {
+            if (string.IsNullOrEmpty(transcriptionId))
+            {
+                ViewBag.Message = "TranscriptionId が指定されていません。";
+                return View("Index");
+            }
+
+            // SpeechToTextService で文字起こしの状態を取得
+            var status = await speechToTextService.GetTranscriptionStatusAsync(transcriptionId);
+            ViewBag.TranscriptionStatus = status;
+
+            // status が Failed の場合、エラーメッセージとして transcriptionId を表示
+            if (status == "Failed")
+            {
+                ViewBag.Message = transcriptionId;
+            }
+
+            ViewBag.TranscriptionId = transcriptionId;
+
+            return View("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetTranscriptionResult(string transcriptionId)
+        {
+            if (string.IsNullOrEmpty(transcriptionId))
+            {
+                ViewBag.Message = "TranscriptionId が指定されていません。";
+                return View("Index");
+            }
+
+            // 文字起こしファイルの URL を取得
+            var transcriptionFileUrl = await speechToTextService.GetTranscriptionFileUrlAsync(transcriptionId);
+
+            // 文字起こし結果を取得
+            ViewBag.TranscriptionResult = await speechToTextService.GetCombinedRecognizedPhraseDisplayAsync(transcriptionFileUrl);
+
+            ViewBag.TranscriptionId = transcriptionId;
+            ViewBag.TranscriptionStatus = "Succeeded";
+
+            // BlobStorageService で音声ファイルを削除
+            var containerName = configuration["ContainerName"];
+            await blobStorageService.DeleteFile(containerName, fileName);
+
+            return View("Index");
+        }
+
+        [HttpPost]
+        public IActionResult ClearViewBags()
+        {
+            ViewBag.TranscriptionId = null;
+            ViewBag.TranscriptionStatus = null;
+            ViewBag.TranscriptionResult = null;
+            ViewBag.Message = null;
+
             return View("Index");
         }
     }

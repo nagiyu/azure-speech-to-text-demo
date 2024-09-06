@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<BlobStorageService.Services.BlobStorageService>();
+builder.Services.AddSingleton<SpeechToTextService.Services.SpeechToTextService>();
 
 var app = builder.Build();
 
