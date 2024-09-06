@@ -7,7 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlobStorageService", "BlobS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlobStorageService.Tests", "BlobStorageService.Tests\BlobStorageService.Tests.csproj", "{5FEA723A-030B-4F0C-B4D8-1BDC2B49EE3B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechTranscriber", "SpeechTranscriber\SpeechTranscriber.csproj", "{3B245573-3887-44D1-8FA1-436487EBFC26}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeechTranscriber", "SpeechTranscriber\SpeechTranscriber.csproj", "{3B245573-3887-44D1-8FA1-436487EBFC26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextService", "SpeechToTextService\SpeechToTextService.csproj", "{14B8AA47-CC8B-4312-8863-88F9B937DECA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpeechToTextService.Tests", "SpeechToText.Tests\SpeechToTextService.Tests.csproj", "{36E193A0-74F4-4C1B-B961-13597E6FA66B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{3B245573-3887-44D1-8FA1-436487EBFC26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B245573-3887-44D1-8FA1-436487EBFC26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B245573-3887-44D1-8FA1-436487EBFC26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14B8AA47-CC8B-4312-8863-88F9B937DECA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14B8AA47-CC8B-4312-8863-88F9B937DECA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14B8AA47-CC8B-4312-8863-88F9B937DECA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14B8AA47-CC8B-4312-8863-88F9B937DECA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36E193A0-74F4-4C1B-B961-13597E6FA66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36E193A0-74F4-4C1B-B961-13597E6FA66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36E193A0-74F4-4C1B-B961-13597E6FA66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36E193A0-74F4-4C1B-B961-13597E6FA66B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
