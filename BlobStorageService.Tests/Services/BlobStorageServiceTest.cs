@@ -70,5 +70,28 @@ namespace BlobStorageService.Tests.Services
             var items = await blobStorageService.GetItems(containerName);
             Assert.IsTrue(items.Contains(Path.GetFileName(filePath)));
         }
+
+        [TestMethod]
+        public async Task DeleteFileTest()
+        {
+            if (configuration == null)
+            {
+                Assert.Fail("Configuration is null.");
+                return;
+            }
+
+            // Arrange
+            var containerName = configuration["ContainerName"];
+            var fileName = configuration["DeleteFileName"];
+
+            var blobStorageService = new BlobStorageService.Services.BlobStorageService(configuration);
+
+            // Act
+            await blobStorageService.DeleteFile(containerName, fileName);
+
+            // Assert
+            var items = await blobStorageService.GetItems(containerName);
+            Assert.IsFalse(items.Contains(fileName));
+        }
     }
 }

@@ -42,6 +42,13 @@ namespace BlobStorageService.Services
             await container.UploadBlobAsync(Path.GetFileName(filePath), File.OpenRead(filePath));
         }
 
+        public async Task DeleteFile(string containerName, string fileName)
+        {
+            var container = CreateBlobContainerClient(containerName);
+
+            await container.DeleteBlobAsync(fileName);
+        }
+
         private BlobContainerClient CreateBlobContainerClient(string containerName)
         {
             var connectionString = configuration["ConnectionString"];
