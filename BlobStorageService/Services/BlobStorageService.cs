@@ -35,11 +35,12 @@ namespace BlobStorageService.Services
             return items;
         }
 
-        public async Task UploadFile(string containerName, string filePath)
+        public async Task UploadFile(string containerName, string filePath, string fileName = "")
         {
             var container = CreateBlobContainerClient(containerName);
 
-            await container.UploadBlobAsync(Path.GetFileName(filePath), File.OpenRead(filePath));
+            using var stream = File.OpenRead(filePath);
+            await container.UploadBlobAsync(fileName == "" ? Path.GetFileName(filePath) : fileName, stream);
         }
 
         public async Task DeleteFile(string containerName, string fileName)
