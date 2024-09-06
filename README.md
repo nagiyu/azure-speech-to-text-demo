@@ -1,1 +1,1 @@
-# azure-speech-to-text-demo
+# AzureSpeechToTextDemo
