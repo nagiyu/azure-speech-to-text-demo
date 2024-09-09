@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\BlobStorageService\BlobStorageService.csproj" />
     <ProjectReference Include="..\SpeechToTextService\SpeechToTextService.csproj" />
   </ItemGroup>

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using SpeechTranscriber.Services;
 
 namespace SpeechTranscriber.Controllers
 {
@@ -51,13 +52,27 @@ namespace SpeechTranscriber.Controllers
                 await audioFile.CopyToAsync(stream);
             }
 
+            // AudioConverter で音声ファイルをモノラルに変換
+            var monoFilePath = Path.GetTempFileName();
+            
+            try
+            {
+                AudioConverter.ConvertToMono(filePath, monoFilePath);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = $"音声ファイルの変換に失敗しました: {ex.Message}";
+                return View("Index");
+            }
+
             var containerName = configuration["ContainerName"];
 
             // BlobStorageService で音声ファイルをアップロード
-            await blobStorageService.UploadFile(containerName, filePath, fileName);
+            await blobStorageService.UploadFile(containerName, monoFilePath, fileName);
 
             // 一時ファイルを削除
             System.IO.File.Delete(filePath);
+            System.IO.File.Delete(monoFilePath);
 
             // SpeechToTextService で音声ファイルを変換
             ViewBag.TranscriptionId = await speechToTextService.CreateTranscriptionAsync(fileName);
